@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:r_place/Screens/carts.dart';
 import 'package:r_place/Screens/homepage.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
       title: "R's place.com",
       initialRoute: "/",
       routes: {
-        '/': (context) => Homepage(),
+        '/': (context) => Cartproducts(),
       },
       theme: ThemeData(
         primarySwatch: Colors.blue,

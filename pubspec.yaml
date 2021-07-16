@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   webscrollbar: ^0.0.2
   shimmer: ^1.1.1
+  smooth_star_rating: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,18 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/
+    - assets/image1.png
+    - assets/image2.png
+    - assets/logo.png
+    - assets/products/1.png
+    - assets/products/2.png
+    - assets/products/3.png
+    - assets/products/4.png
+    - assets/products/5.png
+    - assets/products/6.png
+    - assets/products/7.png
+    - assets/products/8.png
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
