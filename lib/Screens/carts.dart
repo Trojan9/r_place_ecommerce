@@ -34,6 +34,7 @@ class _CartproductsState extends State<Cartproducts> {
   final cardController = TextEditingController();
   final expController = TextEditingController();
   final nameController = TextEditingController();
+  final vouchers = TextEditingController();
   bool hover = false;
   int cartnumber = 0;
   var chosepayment = [false, false];
@@ -93,6 +94,148 @@ class _CartproductsState extends State<Cartproducts> {
     controller.dispose();
 
     super.dispose();
+  }
+
+//overlay...i.e the popup beside it
+  Size buttonSize;
+  Offset buttonPosition;
+  bool isMenuOpen = false;
+  OverlayEntry _overlayEntrysearch() {
+    return OverlayEntry(builder: (context) {
+      return Positioned(
+          top: buttonPosition.dy + buttonSize.height,
+          left: buttonPosition.dx,
+          width: MediaQuery.of(context).size.width / 5,
+          child: Material(
+              color: Colors.white,
+              child: Container(
+                width: MediaQuery.of(context).size.width / 5,
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        "Voucher",
+                        softWrap: true,
+                        maxLines: 2,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                        overflow: TextOverflow.fade,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: vouchers,
+                      enabled: true,
+                      decoration: InputDecoration(
+                        // labelText: 'TITLE',
+                        // border: new OutlineInputBorder(
+                        //   borderSide: BorderSide(color: Colors.black),
+                        //   borderRadius: const BorderRadius.all(
+                        //     const Radius.circular(10.0),
+                        //   ),
+                        //),
+                        hintText: "Enter coupon",
+                        contentPadding: EdgeInsets.all(8.0),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black54),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        // focusedBorder: OutlineInputBorder(
+                        //   borderSide: BorderSide(color: Colors.lightBlue),
+                        //   borderRadius: BorderRadius.circular(8.0),
+                        // ),
+                        //enabledBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                            color: Colors.black38,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400),
+                        //errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: FlatButton(
+                            height: 50,
+                            minWidth: 70,
+                            color: Colors.white,
+                            onPressed: () {
+                              closeMenusearch();
+                            },
+                            child: Text(
+                              "CANCEL",
+                              softWrap: true,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                              ),
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                            flex: 2,
+                            child: SizedBox(
+                              width: 5,
+                            )),
+                        Expanded(
+                          flex: 4,
+                          child: FlatButton(
+                            height: 50,
+                            minWidth: 70,
+                            color: Colors.white,
+                            onPressed: () {
+                              closeMenusearch();
+                            },
+                            child: Text(
+                              "OK",
+                              softWrap: true,
+                              maxLines: 2,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 13,
+                              ),
+                              overflow: TextOverflow.fade,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              )));
+    });
+  }
+
+  GlobalKey _key = LabeledGlobalKey("button_icon");
+  findButton() {
+    RenderBox renderBox = _key.currentContext.findRenderObject();
+    buttonSize = renderBox.size;
+    buttonPosition = renderBox.localToGlobal(Offset.zero);
+  }
+
+  OverlayEntry _overlayEntrysearchcon;
+  bool isMenusearchOpen = false;
+  void openMenusearch() async {
+    findButton();
+    _overlayEntrysearchcon = _overlayEntrysearch();
+    Overlay.of(context).insert(_overlayEntrysearchcon);
+    isMenusearchOpen = !isMenusearchOpen;
+  }
+
+  void closeMenusearch() {
+    _overlayEntrysearchcon.remove();
+    isMenusearchOpen = !isMenusearchOpen;
   }
 
   @override
@@ -827,23 +970,26 @@ class _CartproductsState extends State<Cartproducts> {
                                 SizedBox(
                                   height: 20,
                                 ),
-                                WebScrollBar(
-                                  controller: controller2,
-                                  visibleHeight: 30,
-                                  animationLength: 10,
-                                  child: Container(
-                                    width:
-                                        MediaQuery.of(context).size.width / 2,
-                                    height: MediaQuery.of(context).size.height /
-                                        1.2,
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                            width: 2, color: Colors.green[50])),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 18.0, left: 18, right: 18),
+                                Container(
+                                  width: MediaQuery.of(context).size.width / 2,
+                                  height:
+                                      MediaQuery.of(context).size.height / 1.4,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          width: 2, color: Colors.green[50])),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 18.0,
+                                        left: 18,
+                                        right: 18,
+                                        bottom: 18),
+                                    child: WebScrollBar(
+                                      controller: controller2,
+                                      visibleHeight: 50,
+                                      // animationLength: 10,
                                       child: ListView.builder(
                                           controller: controller2,
+
                                           // physics: NeverScrollableScrollPhysics(),
                                           // primary: false,
                                           // shrinkWrap: true,
@@ -1058,6 +1204,122 @@ class _CartproductsState extends State<Cartproducts> {
                                           }),
                                     ),
                                   ),
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(height: 10),
+                                    FlatButton(
+                                      key: _key,
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        if (isMenusearchOpen) {
+                                          closeMenusearch();
+                                        } else {
+                                          openMenusearch();
+                                        }
+                                      },
+                                      child: Text(
+                                        "Have a Voucher?",
+                                        softWrap: true,
+                                        maxLines: 2,
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(224, 116, 82, 1),
+                                          fontSize: 13,
+                                        ),
+                                        overflow: TextOverflow.fade,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Subtotal",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                        Text(
+                                          "\₦ 36,000",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Shipping",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                        Text(
+                                          "\₦ 2,000",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          "Total",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                        Text(
+                                          "\₦ 38,000",
+                                          softWrap: true,
+                                          maxLines: 2,
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 13,
+                                          ),
+                                          overflow: TextOverflow.fade,
+                                        ),
+                                      ],
+                                    )
+                                  ],
                                 )
                               ],
                             ),
